@@ -135,9 +135,9 @@ const Navbar = () => {
                       </svg>
                     </Link>
                     
-                    {/* Sub-category dropdown - fixed positioning and display */}
+                    {/* Sub-category dropdown - improved positioning and z-index */}
                     <div 
-                      className="absolute left-full top-0 w-64 bg-white shadow-lg rounded-md overflow-hidden z-50"
+                      className="fixed left-auto ml-64 top-auto mt-[-2.5rem] w-64 bg-white shadow-lg rounded-md overflow-hidden z-[60]"
                       style={{ display: activeCategory === category.name ? 'block' : 'none' }}
                     >
                       <ul>
@@ -182,67 +182,69 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu with ScrollArea for the entire menu */}
       {isOpen && (
-        <div className="lg:hidden bg-white shadow-lg absolute top-full left-0 right-0 z-40 animate-fade-in">
-          <div className="container-custom mx-auto py-4">
-            <Link to="/" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>Home</Link>
-            <Link to="/about" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>About</Link>
-            
-            {/* Mobile Products Dropdown */}
-            <div>
-              <button 
-                className="flex items-center justify-between w-full text-navy hover:text-gold transition-colors px-4 py-2"
-                onClick={() => setProductsOpen(!productsOpen)}
-              >
-                <span>Products</span>
-                <svg 
-                  className={`w-4 h-4 transition-transform ${productsOpen ? 'rotate-180' : ''}`} 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24" 
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-              </button>
+        <div className="lg:hidden bg-white shadow-lg absolute top-full left-0 right-0 z-40 animate-fade-in max-h-[80vh] overflow-hidden">
+          <ScrollArea className="max-h-[80vh]">
+            <div className="container-custom mx-auto py-4">
+              <Link to="/" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>Home</Link>
+              <Link to="/about" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>About</Link>
               
-              {productsOpen && (
-                <ScrollArea className="max-h-[50vh] pl-6 flex flex-col mt-2">
-                  {productCategories.map((category, index) => (
-                    <div key={index} className="mb-3">
-                      <Link 
-                        to={category.path} 
-                        className="text-navy font-medium hover:text-gold transition-colors px-4 py-1 block"
-                        onClick={() => setIsOpen(false)}
-                      >
-                        {category.name}
-                      </Link>
-                      <div className="pl-4 space-y-1 mt-1">
-                        {category.subCategories.map((subCategory, subIndex) => (
-                          <Link 
-                            key={subIndex}
-                            to={subCategory.path} 
-                            className="text-navy text-sm hover:text-gold transition-colors px-4 py-1 block"
-                            onClick={() => setIsOpen(false)}
-                          >
-                            {subCategory.name}
-                          </Link>
-                        ))}
+              {/* Mobile Products Dropdown */}
+              <div>
+                <button 
+                  className="flex items-center justify-between w-full text-navy hover:text-gold transition-colors px-4 py-2"
+                  onClick={() => setProductsOpen(!productsOpen)}
+                >
+                  <span>Products</span>
+                  <svg 
+                    className={`w-4 h-4 transition-transform ${productsOpen ? 'rotate-180' : ''}`} 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24" 
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                  </svg>
+                </button>
+                
+                {productsOpen && (
+                  <div className="pl-6 flex flex-col mt-2">
+                    {productCategories.map((category, index) => (
+                      <div key={index} className="mb-3">
+                        <Link 
+                          to={category.path} 
+                          className="text-navy font-medium hover:text-gold transition-colors px-4 py-1 block"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          {category.name}
+                        </Link>
+                        <div className="pl-4 space-y-1 mt-1">
+                          {category.subCategories.map((subCategory, subIndex) => (
+                            <Link 
+                              key={subIndex}
+                              to={subCategory.path} 
+                              className="text-navy text-sm hover:text-gold transition-colors px-4 py-1 block"
+                              onClick={() => setIsOpen(false)}
+                            >
+                              {subCategory.name}
+                            </Link>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </ScrollArea>
-              )}
+                    ))}
+                  </div>
+                )}
+              </div>
+              
+              <Link to="/projects" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>Projects</Link>
+              <Link to="/clients" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>Clients</Link>
+              <Link to="/gallery" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>Gallery</Link>
+              <Link to="/contact" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>Contact</Link>
+              
+              <Link to="/contact" className="btn-primary mx-4 mt-4 block text-center" onClick={() => setIsOpen(false)}>Get a Quote</Link>
             </div>
-            
-            <Link to="/projects" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>Projects</Link>
-            <Link to="/clients" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>Clients</Link>
-            <Link to="/gallery" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>Gallery</Link>
-            <Link to="/contact" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>Contact</Link>
-            
-            <Link to="/contact" className="btn-primary mx-4 mt-4 block text-center" onClick={() => setIsOpen(false)}>Get a Quote</Link>
-          </div>
+          </ScrollArea>
         </div>
       )}
     </nav>
