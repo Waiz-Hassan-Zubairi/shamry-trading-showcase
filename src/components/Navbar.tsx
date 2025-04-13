@@ -1,21 +1,13 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, ChevronDown } from 'lucide-react';
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
-import { cn } from "@/lib/utils";
+import { Menu, X } from 'lucide-react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -81,33 +73,6 @@ const Navbar = () => {
     }
   ];
 
-  // Common styling for NavigationMenuLink
-  const ListItem = React.forwardRef<
-    React.ElementRef<"a">,
-    React.ComponentPropsWithoutRef<"a">
-  >(({ className, title, children, ...props }, ref) => {
-    return (
-      <li>
-        <NavigationMenuLink asChild>
-          <a
-            ref={ref}
-            className={cn(
-              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-              className
-            )}
-            {...props}
-          >
-            <div className="text-sm font-medium leading-none">{title}</div>
-            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-              {children}
-            </p>
-          </a>
-        </NavigationMenuLink>
-      </li>
-    );
-  });
-  ListItem.displayName = "ListItem";
-
   return (
     <nav 
       className={`fixed w-full z-50 transition-all duration-300 ${
@@ -119,54 +84,83 @@ const Navbar = () => {
           <span className="text-navy font-heading font-bold text-2xl">Al Shamry Trading</span>
         </Link>
 
-        {/* Desktop Menu with Navigation Menu Component */}
+        {/* Desktop Menu */}
         <div className="hidden lg:flex items-center space-x-8">
           <Link to="/" className="text-navy hover:text-gold transition-colors">Home</Link>
           <Link to="/about" className="text-navy hover:text-gold transition-colors">About</Link>
           
-          {/* Products Dropdown using Navigation Menu */}
-          <NavigationMenu>
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger className="bg-transparent hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent text-navy hover:text-gold transition-colors">Products</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid w-[500px] gap-3 p-4 md:w-[600px] md:grid-cols-2 lg:w-[700px]">
-                    {productCategories.map((category, index) => (
-                      <li key={index} className="relative group">
-                        <NavigationMenuLink asChild>
-                          <Link
-                            to={category.path}
-                            className="block select-none rounded-md p-3 text-navy leading-none no-underline outline-none transition-colors hover:bg-light-grey"
-                          >
-                            <div className="flex items-center justify-between">
-                              <span className="text-sm font-medium">{category.name}</span>
-                              <ChevronDown className="ml-1 h-4 w-4" />
-                            </div>
-                          </Link>
-                        </NavigationMenuLink>
-                        
-                        {/* Sub-category dropdown */}
-                        <div className="absolute left-full top-0 hidden group-hover:block min-w-[200px] bg-white shadow-lg rounded-md z-50">
-                          <ul className="py-1">
-                            {category.subCategories.map((subCategory, subIndex) => (
-                              <li key={subIndex}>
-                                <Link 
-                                  to={subCategory.path}
-                                  className="block px-4 py-2 text-sm text-navy hover:bg-light-grey"
-                                >
-                                  {subCategory.name}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
+          {/* Products Dropdown */}
+          <div className="relative group">
+            <button 
+              className="text-navy hover:text-gold transition-colors flex items-center"
+              onClick={() => setProductsOpen(!productsOpen)}
+              onMouseEnter={() => setProductsOpen(true)}
+            >
+              Products
+              <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            
+            {/* Main Products Dropdown */}
+            <div 
+              className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md overflow-hidden z-10 transition-all origin-top-left"
+              style={{ display: productsOpen ? 'block' : 'none' }}
+              onMouseLeave={() => {
+                if (activeCategory === null) {
+                  setProductsOpen(false);
+                }
+              }}
+            >
+              <ul>
+                {productCategories.map((category, index) => (
+                  <li 
+                    key={index} 
+                    className="relative"
+                    onMouseEnter={() => setActiveCategory(category.name)}
+                    onMouseLeave={() => setActiveCategory(null)}
+                  >
+                    <Link 
+                      to={category.path}
+                      className="block px-4 py-2 text-navy hover:bg-light-grey hover:text-gold flex items-center justify-between"
+                      onClick={() => {
+                        setProductsOpen(false);
+                        setActiveCategory(null);
+                      }}
+                    >
+                      {category.name}
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
+                      </svg>
+                    </Link>
+                    
+                    {/* Sub-category dropdown */}
+                    <div 
+                      className="absolute left-full top-0 w-64 bg-white shadow-lg rounded-md overflow-hidden"
+                      style={{ display: activeCategory === category.name ? 'block' : 'none' }}
+                    >
+                      <ul>
+                        {category.subCategories.map((subCategory, subIndex) => (
+                          <li key={subIndex}>
+                            <Link 
+                              to={subCategory.path}
+                              className="block px-4 py-2 text-navy hover:bg-light-grey hover:text-gold"
+                              onClick={() => {
+                                setProductsOpen(false);
+                                setActiveCategory(null);
+                              }}
+                            >
+                              {subCategory.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
           
           <Link to="/projects" className="text-navy hover:text-gold transition-colors">Projects</Link>
           <Link to="/clients" className="text-navy hover:text-gold transition-colors">Clients</Link>
@@ -201,7 +195,15 @@ const Navbar = () => {
                 onClick={() => setProductsOpen(!productsOpen)}
               >
                 <span>Products</span>
-                <ChevronDown className={`w-4 h-4 transition-transform ${productsOpen ? 'rotate-180' : ''}`} />
+                <svg 
+                  className={`w-4 h-4 transition-transform ${productsOpen ? 'rotate-180' : ''}`} 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24" 
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
               </button>
               
               {productsOpen && (
