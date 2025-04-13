@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import PageLayout from '../../components/layout/PageLayout';
 import PageBanner from '../../components/ui/PageBanner';
 import ProductCard from '../../components/products/ProductCard';
@@ -16,15 +16,13 @@ import {
   ValveProduct, 
   FittingProduct, 
   PipeProduct,
-  AccessoryProduct,
-  ValveMaterial,
-  FittingMaterial,
-  PipeMaterial
+  AccessoryProduct
 } from '../../types/product';
 
 const Products = () => {
   const { category } = useParams<{ category: string }>();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
@@ -65,16 +63,20 @@ const Products = () => {
         return;
     }
 
-    // Set products and reset filters
+    // Check for material or type filter from URL query params
+    const materialParam = searchParams.get('material');
+    const typeParam = searchParams.get('type');
+    const brandParam = searchParams.get('brand');
+
+    // Set products and filter states
     setProducts(categoryProducts);
-    setFilteredProducts(categoryProducts);
-    setSelectedMaterial('');
-    setSelectedType('');
-    setSelectedBrand('');
+    setSelectedMaterial(materialParam || '');
+    setSelectedType(typeParam || '');
+    setSelectedBrand(brandParam || '');
     
     // Generate filter options based on the category
     generateFilterOptions(categoryProducts, category);
-  }, [category, navigate]);
+  }, [category, navigate, searchParams]);
 
   useEffect(() => {
     applyFilters();
@@ -289,6 +291,15 @@ const Products = () => {
               )}
             </div>
           </div>
+
+          {/* Filtered category title */}
+          {selectedMaterial && (
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-navy">
+                {formatLabel(selectedMaterial)} {getCategoryTitle()}
+              </h2>
+            </div>
+          )}
 
           {/* Products Grid */}
           {filteredProducts.length > 0 ? (
