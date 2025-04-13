@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import { ScrollArea } from './ui/scroll-area';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -104,7 +105,7 @@ const Navbar = () => {
             
             {/* Main Products Dropdown */}
             <div 
-              className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md overflow-hidden z-10 transition-all origin-top-left"
+              className="absolute left-0 mt-2 w-64 bg-white shadow-lg rounded-md overflow-hidden z-50"
               style={{ display: productsOpen ? 'block' : 'none' }}
               onMouseLeave={() => {
                 if (activeCategory === null) {
@@ -134,9 +135,9 @@ const Navbar = () => {
                       </svg>
                     </Link>
                     
-                    {/* Sub-category dropdown */}
+                    {/* Sub-category dropdown - fixed positioning and display */}
                     <div 
-                      className="absolute left-full top-0 w-64 bg-white shadow-lg rounded-md overflow-hidden"
+                      className="absolute left-full top-0 w-64 bg-white shadow-lg rounded-md overflow-hidden z-50"
                       style={{ display: activeCategory === category.name ? 'block' : 'none' }}
                     >
                       <ul>
@@ -184,9 +185,9 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="lg:hidden bg-white shadow-lg absolute top-full left-0 right-0 z-40 animate-fade-in">
-          <div className="container-custom mx-auto py-4 flex flex-col space-y-4">
-            <Link to="/" className="text-navy hover:text-gold transition-colors px-4 py-2" onClick={() => setIsOpen(false)}>Home</Link>
-            <Link to="/about" className="text-navy hover:text-gold transition-colors px-4 py-2" onClick={() => setIsOpen(false)}>About</Link>
+          <div className="container-custom mx-auto py-4">
+            <Link to="/" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>Home</Link>
+            <Link to="/about" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>About</Link>
             
             {/* Mobile Products Dropdown */}
             <div>
@@ -207,12 +208,12 @@ const Navbar = () => {
               </button>
               
               {productsOpen && (
-                <div className="pl-6 flex flex-col space-y-2 mt-2">
+                <ScrollArea className="max-h-[50vh] pl-6 flex flex-col mt-2">
                   {productCategories.map((category, index) => (
-                    <div key={index}>
+                    <div key={index} className="mb-3">
                       <Link 
                         to={category.path} 
-                        className="text-navy hover:text-gold transition-colors px-4 py-1 block"
+                        className="text-navy font-medium hover:text-gold transition-colors px-4 py-1 block"
                         onClick={() => setIsOpen(false)}
                       >
                         {category.name}
@@ -231,16 +232,16 @@ const Navbar = () => {
                       </div>
                     </div>
                   ))}
-                </div>
+                </ScrollArea>
               )}
             </div>
             
-            <Link to="/projects" className="text-navy hover:text-gold transition-colors px-4 py-2" onClick={() => setIsOpen(false)}>Projects</Link>
-            <Link to="/clients" className="text-navy hover:text-gold transition-colors px-4 py-2" onClick={() => setIsOpen(false)}>Clients</Link>
-            <Link to="/gallery" className="text-navy hover:text-gold transition-colors px-4 py-2" onClick={() => setIsOpen(false)}>Gallery</Link>
-            <Link to="/contact" className="text-navy hover:text-gold transition-colors px-4 py-2" onClick={() => setIsOpen(false)}>Contact</Link>
+            <Link to="/projects" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>Projects</Link>
+            <Link to="/clients" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>Clients</Link>
+            <Link to="/gallery" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>Gallery</Link>
+            <Link to="/contact" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>Contact</Link>
             
-            <Link to="/contact" className="btn-primary mx-4" onClick={() => setIsOpen(false)}>Get a Quote</Link>
+            <Link to="/contact" className="btn-primary mx-4 mt-4 block text-center" onClick={() => setIsOpen(false)}>Get a Quote</Link>
           </div>
         </div>
       )}
