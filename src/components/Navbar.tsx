@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
@@ -209,7 +208,7 @@ const Navbar = () => {
                 </button>
                 
                 {productsOpen && (
-                  <div className="pl-6 flex flex-col mt-2 max-h-[40vh]">
+                  <div className="pl-6 flex flex-col mt-2">
                     <ScrollArea className="max-h-[40vh] pr-4">
                       {productCategories.map((category, index) => (
                         <div key={index} className="mb-3">
