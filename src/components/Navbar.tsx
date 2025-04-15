@@ -209,30 +209,32 @@ const Navbar = () => {
                 </button>
                 
                 {productsOpen && (
-                  <div className="pl-6 flex flex-col mt-2">
-                    {productCategories.map((category, index) => (
-                      <div key={index} className="mb-3">
-                        <Link 
-                          to={category.path} 
-                          className="text-navy font-medium hover:text-gold transition-colors px-4 py-1 block"
-                          onClick={() => setIsOpen(false)}
-                        >
-                          {category.name}
-                        </Link>
-                        <div className="pl-4 space-y-1 mt-1">
-                          {category.subCategories.map((subCategory, subIndex) => (
-                            <Link 
-                              key={subIndex}
-                              to={subCategory.path} 
-                              className="text-navy text-sm hover:text-gold transition-colors px-4 py-1 block"
-                              onClick={() => setIsOpen(false)}
-                            >
-                              {subCategory.name}
-                            </Link>
-                          ))}
+                  <div className="pl-6 flex flex-col mt-2 max-h-[40vh] overflow-y-auto">
+                    <ScrollArea className="pr-4">
+                      {productCategories.map((category, index) => (
+                        <div key={index} className="mb-3">
+                          <Link 
+                            to={category.path} 
+                            className="text-navy font-medium hover:text-gold transition-colors px-4 py-1 block"
+                            onClick={() => setIsOpen(false)}
+                          >
+                            {category.name}
+                          </Link>
+                          <div className="pl-4 space-y-1 mt-1">
+                            {category.subCategories.map((subCategory, subIndex) => (
+                              <Link 
+                                key={subIndex}
+                                to={subCategory.path} 
+                                className="text-navy text-sm hover:text-gold transition-colors px-4 py-1 block"
+                                onClick={() => setIsOpen(false)}
+                              >
+                                {subCategory.name}
+                              </Link>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </ScrollArea>
                   </div>
                 )}
               </div>
