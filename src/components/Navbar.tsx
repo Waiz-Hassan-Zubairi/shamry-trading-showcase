@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react';
 import { ScrollArea } from './ui/scroll-area';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [activeMobileCategories, setActiveMobileCategories] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const handleScroll = () => {
@@ -73,6 +75,13 @@ const Navbar = () => {
     }
   ];
 
+  const toggleMobileCategory = (categoryName: string) => {
+    setActiveMobileCategories(prev => ({
+      ...prev,
+      [categoryName]: !prev[categoryName]
+    }));
+  };
+
   return (
     <nav 
       className={`fixed w-full z-50 transition-all duration-300 ${
@@ -97,9 +106,7 @@ const Navbar = () => {
               onMouseEnter={() => setProductsOpen(true)}
             >
               Products
-              <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-              </svg>
+              <ChevronDown className="w-4 h-4 ml-1" />
             </button>
             
             {/* Main Products Dropdown */}
@@ -129,9 +136,7 @@ const Navbar = () => {
                       }}
                     >
                       {category.name}
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                      </svg>
+                      <ChevronRight className="w-4 h-4" />
                     </Link>
                     
                     {/* Sub-category dropdown - improved positioning and z-index */}
@@ -181,7 +186,7 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile Menu with ScrollArea for the entire menu */}
+      {/* Mobile Menu with improved hierarchy for product categories */}
       {isOpen && (
         <div className="lg:hidden bg-white shadow-lg absolute top-full left-0 right-0 z-40 animate-fade-in max-h-[75vh] overflow-hidden">
           <ScrollArea className="max-h-[75vh]">
@@ -189,54 +194,44 @@ const Navbar = () => {
               <Link to="/" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>Home</Link>
               <Link to="/about" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>About</Link>
               
-              {/* Mobile Products Dropdown */}
-              <div>
-                <button 
-                  className="flex items-center justify-between w-full text-navy hover:text-gold transition-colors px-4 py-2"
-                  onClick={() => setProductsOpen(!productsOpen)}
-                >
+              {/* Mobile Products with Collapsible sections */}
+              <Collapsible>
+                <CollapsibleTrigger className="flex items-center justify-between w-full text-navy hover:text-gold transition-colors px-4 py-2">
                   <span>Products</span>
-                  <svg 
-                    className={`w-4 h-4 transition-transform ${productsOpen ? 'rotate-180' : ''}`} 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24" 
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-                  </svg>
-                </button>
-                
-                {productsOpen && (
-                  <div className="pl-6 flex flex-col mt-2">
-                    <ScrollArea className="max-h-[40vh] pr-4">
-                      {productCategories.map((category, index) => (
-                        <div key={index} className="mb-3">
-                          <Link 
-                            to={category.path} 
-                            className="text-navy font-medium hover:text-gold transition-colors px-4 py-1 block"
-                            onClick={() => setIsOpen(false)}
+                  <ChevronDown className={`w-4 h-4 transition-transform ${productsOpen ? 'rotate-180' : ''}`} />
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <div className="pl-4">
+                    {productCategories.map((category, index) => (
+                      <div key={index} className="mb-2">
+                        <Collapsible>
+                          <CollapsibleTrigger 
+                            className="flex items-center justify-between w-full text-navy hover:text-gold transition-colors px-4 py-2"
+                            onClick={() => toggleMobileCategory(category.name)}
                           >
-                            {category.name}
-                          </Link>
-                          <div className="pl-4 space-y-1 mt-1">
-                            {category.subCategories.map((subCategory, subIndex) => (
-                              <Link 
-                                key={subIndex}
-                                to={subCategory.path} 
-                                className="text-navy text-sm hover:text-gold transition-colors px-4 py-1 block"
-                                onClick={() => setIsOpen(false)}
-                              >
-                                {subCategory.name}
-                              </Link>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
-                    </ScrollArea>
+                            <span>{category.name}</span>
+                            <ChevronDown className={`w-4 h-4 transition-transform ${activeMobileCategories[category.name] ? 'rotate-180' : ''}`} />
+                          </CollapsibleTrigger>
+                          <CollapsibleContent>
+                            <div className="pl-4">
+                              {category.subCategories.map((subCategory, subIndex) => (
+                                <Link 
+                                  key={subIndex}
+                                  to={subCategory.path} 
+                                  className="text-navy text-sm hover:text-gold transition-colors px-4 py-2 block"
+                                  onClick={() => setIsOpen(false)}
+                                >
+                                  {subCategory.name}
+                                </Link>
+                              ))}
+                            </div>
+                          </CollapsibleContent>
+                        </Collapsible>
+                      </div>
+                    ))}
                   </div>
-                )}
-              </div>
+                </CollapsibleContent>
+              </Collapsible>
               
               <Link to="/projects" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>Projects</Link>
               <Link to="/clients" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>Clients</Link>
