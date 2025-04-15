@@ -105,7 +105,7 @@ const Navbar = () => {
             
             {/* Main Products Dropdown */}
             <div 
-              className="absolute left-0 mt-2 w-64 bg-white shadow-lg rounded-md overflow-hidden z-50"
+              className="absolute left-0 mt-2 w-64 bg-white shadow-lg rounded-md overflow-hidden z-[60]"
               style={{ display: productsOpen ? 'block' : 'none' }}
               onMouseLeave={() => {
                 if (activeCategory === null) {
@@ -137,7 +137,7 @@ const Navbar = () => {
                     
                     {/* Sub-category dropdown - improved positioning and z-index */}
                     <div 
-                      className="fixed left-auto ml-64 top-auto mt-[-2.5rem] w-64 bg-white shadow-lg rounded-md overflow-hidden z-[60]"
+                      className="fixed left-auto ml-64 top-auto mt-[-2.5rem] w-64 bg-white shadow-lg rounded-md overflow-hidden z-[70]"
                       style={{ display: activeCategory === category.name ? 'block' : 'none' }}
                     >
                       <ul>
@@ -184,8 +184,8 @@ const Navbar = () => {
 
       {/* Mobile Menu with ScrollArea for the entire menu */}
       {isOpen && (
-        <div className="lg:hidden bg-white shadow-lg absolute top-full left-0 right-0 z-40 animate-fade-in max-h-[80vh] overflow-hidden">
-          <ScrollArea className="max-h-[80vh]">
+        <div className="lg:hidden bg-white shadow-lg absolute top-full left-0 right-0 z-40 animate-fade-in max-h-[75vh] overflow-hidden">
+          <ScrollArea className="max-h-[75vh]">
             <div className="container-custom mx-auto py-4">
               <Link to="/" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>Home</Link>
               <Link to="/about" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>About</Link>
@@ -209,8 +209,8 @@ const Navbar = () => {
                 </button>
                 
                 {productsOpen && (
-                  <div className="pl-6 flex flex-col mt-2 max-h-[40vh] overflow-y-auto">
-                    <ScrollArea className="pr-4">
+                  <div className="pl-6 flex flex-col mt-2 max-h-[40vh]">
+                    <ScrollArea className="max-h-[40vh] pr-4">
                       {productCategories.map((category, index) => (
                         <div key={index} className="mb-3">
                           <Link 
