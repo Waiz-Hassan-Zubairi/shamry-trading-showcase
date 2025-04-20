@@ -190,7 +190,7 @@ const Navbar = () => {
       {/* Mobile Menu with improved scrolling for product categories */}
       {isOpen && (
         <div className="lg:hidden bg-white shadow-lg absolute top-full left-0 right-0 z-40 animate-fade-in">
-          <ScrollArea className="max-h-[75vh] overflow-y-auto">
+          <ScrollArea className="max-h-[80vh] overflow-y-auto"> {/* Increased height */}
             <div className="container-custom mx-auto py-4">
               <Link to="/" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>Home</Link>
               <Link to="/about" className="text-navy hover:text-gold transition-colors px-4 py-2 block" onClick={() => setIsOpen(false)}>About</Link>
@@ -214,13 +214,13 @@ const Navbar = () => {
                             <ChevronDown className={`w-4 h-4 transition-transform ${activeMobileCategories[category.name] ? 'rotate-180' : ''}`} />
                           </CollapsibleTrigger>
                           <CollapsibleContent>
-                            <ScrollArea className="max-h-[30vh]">
-                              <div className="pl-4">
+                            <ScrollArea className="max-h-[40vh]"> {/* Increased height for subcategories */}
+                              <div className="pl-4 py-2"> {/* Added vertical padding */}
                                 {category.subCategories.map((subCategory, subIndex) => (
                                   <Link 
                                     key={subIndex}
                                     to={subCategory.path} 
-                                    className="text-navy text-sm hover:text-gold transition-colors px-4 py-2 block"
+                                    className="text-navy text-sm hover:text-gold transition-colors px-4 py-2.5 block" /* Increased padding */
                                     onClick={() => setIsOpen(false)}
                                   >
                                     {subCategory.name}
