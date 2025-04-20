@@ -41,9 +41,10 @@ const StatsSection = () => {
           {stats.map((stat, index) => (
             <div 
               key={index}
-              className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
+              className="bg-gradient-to-br from-white to-gray-50 rounded-lg p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-500 opacity-0 animate-[fade-in_0.8s_ease-out_forwards] hover:translate-y-[-5px]"
+              style={{ animationDelay: `${0.2 + index * 0.1}s` }}
             >
-              <div className={`w-14 h-14 rounded-full ${stat.color} flex items-center justify-center mb-4`}>
+              <div className={`w-14 h-14 rounded-full ${stat.color} flex items-center justify-center mb-4 transition-transform duration-500 hover:scale-110`}>
                 <stat.icon className={`w-7 h-7 ${stat.iconColor}`} />
               </div>
               <h3 className="text-3xl font-bold text-navy mb-2">{stat.value}</h3>
