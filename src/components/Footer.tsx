@@ -1,10 +1,11 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin, Clock, ChevronRight } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="bg-navy dark:bg-background border-t dark:border-white/10 text-white pt-16 pb-8">
+    <footer className="bg-navy text-white pt-16 pb-8">
       <div className="container-custom">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}

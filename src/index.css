@@ -9,46 +9,33 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 220 33% 21%;
+
     --card: 0 0% 100%;
     --card-foreground: 220 33% 21%;
+
     --popover: 0 0% 100%;
     --popover-foreground: 220 33% 21%;
+
     --primary: 218 71% 21%;
     --primary-foreground: 210 40% 98%;
+
     --secondary: 210 20% 96.1%;
     --secondary-foreground: 220 33% 21%;
+
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
+
     --accent: 49 78% 53%;
     --accent-foreground: 220 33% 21%;
+
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
+
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 218 71% 21%;
-    --radius: 0.5rem;
-  }
 
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 49 78% 53%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --radius: 0.5rem;
   }
 }
 
@@ -58,7 +45,7 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans transition-colors duration-300;
+    @apply bg-background text-foreground font-sans;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -72,51 +59,18 @@
   }
   
   .btn-primary {
-    @apply bg-navy text-white hover:bg-opacity-90 px-6 py-3 rounded-md font-medium transition-all duration-300 dark:bg-white dark:text-navy dark:hover:bg-white/90;
+    @apply bg-navy text-white hover:bg-opacity-90 px-6 py-3 rounded-md font-medium transition-all duration-300;
   }
   
   .btn-outline {
-    @apply border border-navy text-navy hover:bg-navy hover:text-white px-6 py-3 rounded-md font-medium transition-all duration-300 dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-navy;
+    @apply border border-navy text-navy hover:bg-navy hover:text-white px-6 py-3 rounded-md font-medium transition-all duration-300;
   }
   
   .section-title {
-    @apply text-3xl md:text-4xl font-bold mb-4 text-navy dark:text-white;
+    @apply text-3xl md:text-4xl font-bold mb-4 text-navy;
   }
   
   .section-subtitle {
-    @apply text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl;
-  }
-
-  .glass-card {
-    @apply bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl shadow-lg dark:bg-black/20 dark:border-white/10;
-  }
-
-  .animate-fade-in {
-    @apply opacity-0 animate-[fadeIn_0.5s_ease-out_forwards];
-  }
-
-  .animate-slide-up {
-    @apply opacity-0 translate-y-4 animate-[slideUp_0.5s_ease-out_forwards];
+    @apply text-xl text-gray-600 mb-8 max-w-2xl;
   }
 }
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
