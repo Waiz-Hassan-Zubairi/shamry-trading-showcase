@@ -4,6 +4,7 @@ import { Menu, X } from 'lucide-react';
 import MobileNavMenu from './navbar/MobileNavMenu';
 import ProductsDropdown from './navbar/ProductsDropdown';
 import { ProductCategory } from './navbar/types';
+import { useTheme } from './ThemeProvider';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,6 +12,7 @@ const Navbar = () => {
   const [productsOpen, setProductsOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [activeMobileCategories, setActiveMobileCategories] = useState<Record<string, boolean>>({});
+  const { theme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,7 +27,6 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Product categories data
   const productCategories: ProductCategory[] = [
     {
       name: 'Valves',
@@ -86,18 +87,31 @@ const Navbar = () => {
   return (
     <nav 
       className={`fixed w-full z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'
+        isScrolled 
+          ? 'bg-white dark:bg-background dark:border-b dark:border-white/10 shadow-md py-2' 
+          : 'bg-transparent py-4'
       }`}
     >
       <div className="container-custom mx-auto flex justify-between items-center">
         <Link to="/" className="flex items-center space-x-2">
-          <span className="text-navy font-heading font-bold text-2xl">Al Shamry Trading</span>
+          <span className={`font-heading font-bold text-2xl ${
+            isScrolled ? 'text-navy dark:text-white' : 'text-white'
+          }`}>
+            Al Shamry Trading
+          </span>
         </Link>
 
-        {/* Desktop Menu */}
         <div className="hidden lg:flex items-center space-x-8">
-          <Link to="/" className="text-navy hover:text-gold transition-colors">Home</Link>
-          <Link to="/about" className="text-navy hover:text-gold transition-colors">About</Link>
+          <Link to="/" className={`${
+            isScrolled ? 'text-navy dark:text-white' : 'text-white'
+          } hover:text-gold transition-colors`}>
+            Home
+          </Link>
+          <Link to="/about" className={`${
+            isScrolled ? 'text-navy dark:text-white' : 'text-white'
+          } hover:text-gold transition-colors`}>
+            About
+          </Link>
           
           <ProductsDropdown 
             productsOpen={productsOpen}
@@ -107,19 +121,42 @@ const Navbar = () => {
             setActiveCategory={setActiveCategory}
           />
           
-          <Link to="/projects" className="text-navy hover:text-gold transition-colors">Projects</Link>
-          <Link to="/clients" className="text-navy hover:text-gold transition-colors">Clients</Link>
-          <Link to="/gallery" className="text-navy hover:text-gold transition-colors">Gallery</Link>
-          <Link to="/contact" className="text-navy hover:text-gold transition-colors">Contact</Link>
+          <Link to="/projects" className={`${
+            isScrolled ? 'text-navy dark:text-white' : 'text-white'
+          } hover:text-gold transition-colors`}>
+            Projects
+          </Link>
+          <Link to="/clients" className={`${
+            isScrolled ? 'text-navy dark:text-white' : 'text-white'
+          } hover:text-gold transition-colors`}>
+            Clients
+          </Link>
+          <Link to="/gallery" className={`${
+            isScrolled ? 'text-navy dark:text-white' : 'text-white'
+          } hover:text-gold transition-colors`}>
+            Gallery
+          </Link>
+          <Link to="/contact" className={`${
+            isScrolled ? 'text-navy dark:text-white' : 'text-white'
+          } hover:text-gold transition-colors`}>
+            Contact
+          </Link>
         </div>
 
         <div className="hidden lg:block">
-          <Link to="/contact" className="btn-primary">Get a Quote</Link>
+          <Link to="/contact" className={`${
+            isScrolled 
+              ? 'btn-primary' 
+              : 'border-2 border-white text-white hover:bg-white hover:text-navy px-6 py-3 rounded-md font-medium transition-all duration-300'
+          }`}>
+            Get a Quote
+          </Link>
         </div>
 
-        {/* Mobile Toggle */}
         <button 
-          className="lg:hidden text-navy"
+          className={`lg:hidden ${
+            isScrolled ? 'text-navy dark:text-white' : 'text-white'
+          }`}
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
