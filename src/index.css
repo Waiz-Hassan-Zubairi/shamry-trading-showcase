@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
 
 @tailwind base;
@@ -71,27 +72,35 @@
   }
   
   .btn-primary {
-    @apply bg-navy text-white hover:bg-opacity-90 px-6 py-3 rounded-md font-medium transition-all duration-300;
+    @apply bg-navy hover:bg-opacity-90 text-white px-6 py-3 rounded-md font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:translate-y-[-2px];
   }
   
   .btn-outline {
-    @apply border border-navy text-navy hover:bg-navy hover:text-white px-6 py-3 rounded-md font-medium transition-all duration-300;
+    @apply border border-white/30 text-white hover:bg-white/10 px-6 py-3 rounded-md font-medium transition-all duration-300 backdrop-blur-sm;
   }
   
   .section-title {
-    @apply text-3xl md:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-100 to-pink-200;
+    @apply text-3xl md:text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-100 to-pink-200;
   }
   
   .section-subtitle {
-    @apply text-xl text-gray-400 mb-8 max-w-2xl;
+    @apply text-xl text-gray-300 mb-12 max-w-3xl mx-auto;
   }
 
   .glass-card {
-    @apply backdrop-blur-xl bg-white/5 border border-white/10 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300;
+    @apply backdrop-blur-xl bg-white/10 border border-white/20 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300;
   }
 
   .glass-effect {
-    @apply backdrop-blur-lg bg-white/5 border border-white/10;
+    @apply backdrop-blur-lg bg-white/10 border border-white/20;
+  }
+  
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-2 hover:shadow-xl;
+  }
+  
+  .text-gradient {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-100 to-pink-200;
   }
 }
 
@@ -108,5 +117,25 @@
     50% {
       background-position: 100% 50%;
     }
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+  
+  .hover-lift {
+    @apply transition-transform duration-300 hover:-translate-y-2;
   }
 }
