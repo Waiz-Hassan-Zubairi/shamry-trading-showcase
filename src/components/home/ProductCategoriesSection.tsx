@@ -32,12 +32,12 @@ const categories = [
 
 const ProductCategoriesSection = () => {
   return (
-    <section className="py-24 bg-gradient-to-b from-gray-50 to-white">
+    <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
       <div className="container-custom">
         <div className="text-center mb-16 opacity-0 animate-[fade-in_0.8s_ease-out_0.2s_forwards]">
           <h2 className="text-4xl md:text-5xl font-bold text-navy mb-4 font-heading">Our Product Categories</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Explore our comprehensive range of high-quality industrial products designed for performance and reliability
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Explore our comprehensive range of high-quality industrial products
           </p>
         </div>
 
@@ -45,9 +45,9 @@ const ProductCategoriesSection = () => {
           {categories.map((category, index) => (
             <div 
               key={index} 
-              className="group relative card-hover"
+              className="group relative"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-navy/80 to-navy rounded-2xl transform rotate-2 group-hover:rotate-0 transition-transform duration-300 opacity-0 animate-[fade-in_0.8s_ease-out_forwards]"
+              <div className="absolute inset-0 bg-gradient-to-br from-navy/80 to-navy rounded-2xl transform rotate-3 group-hover:rotate-0 transition-transform duration-300 opacity-0 animate-[fade-in_0.8s_ease-out_forwards]"
                 style={{ animationDelay: `${0.3 + index * 0.1}s` }}
               />
               <div 
@@ -60,11 +60,11 @@ const ProductCategoriesSection = () => {
                     alt={category.title}
                     className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/50 to-transparent opacity-50 group-hover:opacity-70 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
                 <div className="p-6 bg-gradient-to-b from-white to-gray-50">
                   <h3 className="text-xl font-bold text-navy mb-2">{category.title}</h3>
-                  <p className="text-gray-600 mb-4 line-clamp-3">{category.description}</p>
+                  <p className="text-gray-600 mb-4 line-clamp-2">{category.description}</p>
                   <Link 
                     to={category.link}
                     className="inline-flex items-center text-navy font-medium group/link"
